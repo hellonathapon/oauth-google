@@ -1,12 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const Controllers = require('../../controllers');
+const passport = require('passport');
 
-// a route to navigate to google consent screen and redirect
-router.get ('/login', Controllers.Login, (req, res) => {
-    console.log('redirect from Google consent screen')
-    res.status(200)
-    res.render('index')
+// this particular route only navigate to google consent screen
+// and if login successfully, it will automatically redirect to `redirect` route
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile'] // scope param is required to consent screen!
+}));
+
+// a redirect route from consent screen.
+router.get('/redirect',passport.authenticate('google'), (req, res) => {
+    console.log('get back from consent screen')
+    // redirect to User profile 
 })
 
 module.exports = router;
