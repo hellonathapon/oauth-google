@@ -1,25 +1,49 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('../models/User');
 require('dotenv').config();
 
 passport.serializeUser(function(user, done){
-    done(null, user.id)
+    done(null, user._id)
 });
 
-passport.deserializeUser(function(id, done){
-    // use id to find user in DB and return done with user data pass along
-    // done(null, user)
+passport.deserializeUser(function(_id, done){
+
+    User.findById({ _id }, function(err, user) {
+        if (err) {
+            return done(err)
+        }
+        done(null, user)
+    })
 })
 
 passport.use( new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
-}, (accessToken, refreshToken, profile, done) => {
-    // callback fucntion of consent screen
-    // check if user is exists in db otherwise save one then pass user data to serialize for a cookie.
-    console.log(profile)
-    done(null, profile)
+
+}, async (accessToken, refreshToken, profile, done) => {
+    const { sub, email, name, picture } = profile._json;
+
+    try {
+        // check if user already exists in db
+        const user = await User.findOne({ googleId: sub });
+
+        if (!user) {
+            // if not create one and pass it to serialize as cookie
+            const newUser = await User.create({
+                googleId: sub,
+                email: email,
+                name: name,
+                picture: picture,
+            });
+            return done(null, newUser);
+        } else {
+            return done(null, user)
+        }
+    } catch (err) {
+        console.error(err);
+    }
 }));
 
 module.exports = passport;

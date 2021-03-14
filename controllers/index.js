@@ -1,8 +1,11 @@
 class Controllers {
     
-    Logout (req, res, next) {
-        console.log('Logout Controller')
-        next()
+    CheckAuthenticate (req, res, next) {
+        if (!req.isAuthenticated()) {
+            return res.redirect('/');
+        }else {
+            next();
+        }
     }
 }
 
