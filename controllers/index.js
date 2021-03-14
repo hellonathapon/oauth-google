@@ -7,6 +7,16 @@ class Controllers {
             next();
         }
     }
+
+    CheckNotAuthenticate (req, res, next) {
+        if (!req.isAuthenticated()) {
+            req.isLoggedIn = false;
+            next()
+        }else {
+            req.isLoggedIn = true;
+            next()
+        }
+    }
 }
 
 module.exports = new Controllers();

@@ -6,6 +6,8 @@ const passport = require('passport');
 const passportConfig = require('./configs/passport');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const flash = require('express-flash');
+const Controllers = require('./controllers/index');
 require('dotenv').config();
 
 // DB connect
@@ -30,12 +32,13 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());   
 
 // handle routes
 app.use('/user', require('./routes/user/index'));
 app.use('/auth', require('./routes/auth/index.js')); // route position order is important
-app.use('/', (req, res) => {
-    res.render('index');
+app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
+    res.render('index', { isLoggedIn: req.isLoggedIn });
 })
 
 

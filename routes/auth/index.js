@@ -10,7 +10,9 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // redirected route from consent screen.
-router.get('/redirect', passport.authenticate('google'), (req, res) => {
+router.get('/redirect', passport.authenticate('google', {
+    failureRedirect: '/'
+}), (req, res) => {
     res.redirect('/user')    
 });
 
