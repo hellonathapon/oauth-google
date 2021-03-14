@@ -36,7 +36,8 @@ app.use(flash());
 
 // handle routes
 app.use('/user', require('./routes/user/index'));
-app.use('/auth', require('./routes/auth/index.js')); // route position order is important
+app.use('/auth/facebook', require('./routes/auth/facebook/index'));
+app.use('/auth/google', require('./routes/auth/google/index.js')); // route position order is important
 app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
     res.render('index', { isLoggedIn: req.isLoggedIn });
 })
