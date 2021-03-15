@@ -41,6 +41,10 @@ app.use('/auth/google', require('./routes/auth/google/index.js')); // route posi
 app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
     res.render('index', { isLoggedIn: req.isLoggedIn });
 })
+// app.get('/logout', (req, res) => {
+//     req.logout(); // terminate session;
+//     return res.redirect('/');
+// })
 
 
 app.listen(port, console.log(`🚀 Server is running on port ${port}`));

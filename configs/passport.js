@@ -56,7 +56,6 @@ passport.use( new FacebookStrategy({
     profileFields: ['id', 'displayName', 'photos', 'email'], // technically the scope permission params.
 
 }, async (accessToken, refreshToken, profile, done) => {
-    
     const { id, name, email, picture } = profile._json;
 
     try {

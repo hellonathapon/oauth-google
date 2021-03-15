@@ -4,9 +4,8 @@ const passport = require('passport');
 
 router.get('/', passport.authenticate('facebook'));
 
-router.get('/callback', passport.authenticate('facebook', {
-    failureRedirect: '/'
-}), (req, res) => {
+router.get('/callback', passport.authenticate('facebook'), (req, res) => {
+    console.log('hit fb callback route')
     res.redirect('/user');
 })
 
