@@ -11,9 +11,11 @@ class Controllers {
     CheckNotAuthenticate (req, res, next) {
         if (!req.isAuthenticated()) {
             req.isLoggedIn = false;
+            req.profilePic = false;
             next()
         }else {
             req.isLoggedIn = true;
+            req.profilePic = req.user.picture;
             next()
         }
     }

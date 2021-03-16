@@ -38,8 +38,9 @@ app.use(flash());
 app.use('/user', require('./routes/user/index'));
 app.use('/auth/facebook', require('./routes/auth/facebook/index'));
 app.use('/auth/google', require('./routes/auth/google/index.js')); // route position order is important
+app.use('/login', require('./routes/auth/index'));
 app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
-    res.render('index', { isLoggedIn: req.isLoggedIn });
+    res.render('index', { isLoggedIn: req.isLoggedIn, profilePic: req.profilePic });
 })
 // app.get('/logout', (req, res) => {
 //     req.logout(); // terminate session;
