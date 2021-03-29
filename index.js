@@ -15,7 +15,7 @@ const dbString = `mongodb+srv://nathapon:${process.env.DB_PASSWORD}@cluster0.3dm
 mongoose.connect(dbString, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log('✔️' + ' ' + ' DB connected'))
 .catch(err => console.log(err))
-mongoose.connection.on('error', err => console.error(err)); // catch err after connection was established.
+mongoose.connection.on('error', err => console.error(err)); // for catching err after connection was established.
 
 // set up view engine
 app.set('view engine', 'ejs');
@@ -42,6 +42,11 @@ app.use('/auth/google', require('./routes/auth/google/index.js')); // route posi
 app.use('/login', require('./routes/auth/index'));
 app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
     res.render('index', { isLoggedIn: req.isLoggedIn, profilePic: req.profilePic });
+})
+
+// error handling midddleware
+app.use(function(err, req, res, next) {
+    res.status(500).send('something bloke!')
 })
 
 
