@@ -24,7 +24,7 @@
               <a class="nav-link" href="/auth/google/logout">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://github.com/hellonathapon/oauth-google" target="_blank">Source Code</a>
+              <a class="nav-link" href="https://github.com/hellonathapon/oauth-google" target="_blank" ref="noreferrer">Source Code</a>
             </li>
           </ul>
         </div>
@@ -32,10 +32,17 @@
 
       <div class="container">
           <div class="row text-center">
-              <div class="col-sm-12 mt-5">
-                  <img src="<%= user.picture%>" alt="">
-                  <div class="h1">Welcome <%= user.name%></div>
-                  <div class="p"><%= user.email%></div>
+              <div class="col-sm-6 mt-5">
+                <img style="max-width: 500px; width: 100%;" src="undraw_influencer_d3xx.svg" alt="bg">
+              </div>
+              <div class="col-sm-6 mt-5">
+                  <div class="card">
+                    <!-- <img src="<%= user.picture%>" alt=""> -->
+                    <div class="card-body">
+                      <h5 class="card-title"><%= user.name%></h5>
+                      <h6 class="card-subtitle mb-2 text-muted"><%= user.email%></h6>
+                    </div>
+                  </div>
                   
               </div>
           </div>

@@ -11,7 +11,8 @@ const Controllers = require('./controllers/index');
 require('dotenv').config();
 
 // DB connect
-mongoose.connect(process.env.DB_STRING, {useNewUrlParser: true, useUnifiedTopology: true})
+const dbString = `mongodb+srv://nathapon:${process.env.DB_PASSWORD}@cluster0.3dmkv.mongodb.net/oauth_users?retryWrites=true&w=majority`
+mongoose.connect(dbString, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log('✔️' + ' ' + ' DB connected'))
 .catch(err => console.log(err))
 mongoose.connection.on('error', err => console.error(err)); // catch err after connection was established.
@@ -42,10 +43,6 @@ app.use('/login', require('./routes/auth/index'));
 app.use('/', Controllers.CheckNotAuthenticate, (req, res) => {
     res.render('index', { isLoggedIn: req.isLoggedIn, profilePic: req.profilePic });
 })
-// app.get('/logout', (req, res) => {
-//     req.logout(); // terminate session;
-//     return res.redirect('/');
-// })
 
 
 app.listen(port, console.log(`🚀 Server is running on port ${port}`));
